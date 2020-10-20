@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
-using System.Net.NetworkInformation;
 
 namespace Chessington.GameEngine.Pieces
 {
@@ -33,14 +31,8 @@ namespace Chessington.GameEngine.Pieces
             var moves = new List<Square>();
             foreach (var move in potentialMoves)
             {
-                if (board.GetPiece(move) != null)
-                {
-                    if (board.GetPiece(move).Player != this.Player)
-                    {
-                        moves.AddIfOnBoard(move);
-                    }
-                }
-                else
+                var pieceOnNewSquare = board.GetPiece(move);
+                if (pieceOnNewSquare == null || pieceOnNewSquare.Player != this.Player)
                 {
                     moves.AddIfOnBoard(move);
                 }
