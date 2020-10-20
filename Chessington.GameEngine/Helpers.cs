@@ -38,22 +38,19 @@ namespace Chessington.GameEngine
             int spacesAway
         )
         {
-            var newDirections = new List<Direction>();
-            foreach (var direction in directions)
-            {
-                var potentialMove = Square.At(
-                    currentSquare.Row + spacesAway * direction.RowOffset,
-                    currentSquare.Col + spacesAway * direction.ColOffset
-                );
-                var pieceOnNewSquare = board.GetPiece(potentialMove);                
-                
-                if (pieceOnNewSquare == null)
-                {
-                    newDirections.Add(direction);
-                }
-            }
+            return directions.Where(
+                direction => SpaceInDirectionIsAvailable(direction, board, currentSquare, spacesAway)
+                ).ToList();
+        }
 
-            return newDirections;
+        private static bool SpaceInDirectionIsAvailable(Direction direction, Board board, Square currentSquare, int spacesAway)
+        {
+            var potentialMove = Square.At(
+                currentSquare.Row + spacesAway * direction.RowOffset,
+                currentSquare.Col + spacesAway * direction.ColOffset
+            );
+
+            return board.GetPiece(potentialMove) == null;
         }
     }
 }
