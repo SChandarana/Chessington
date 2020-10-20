@@ -10,16 +10,33 @@ namespace Chessington.GameEngine.Pieces
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
-            var moves = new List<Square>();
             var currentSquare = board.FindPiece(this);
-            moves.AddIfOnBoard(Square.At(currentSquare.Row + 2, currentSquare.Col + 1));
-            moves.AddIfOnBoard(Square.At(currentSquare.Row + 2, currentSquare.Col - 1));
-            moves.AddIfOnBoard(Square.At(currentSquare.Row - 2, currentSquare.Col + 1));
-            moves.AddIfOnBoard(Square.At(currentSquare.Row - 2, currentSquare.Col - 1));
-            moves.AddIfOnBoard(Square.At(currentSquare.Row + 1, currentSquare.Col + 2));
-            moves.AddIfOnBoard(Square.At(currentSquare.Row + 1, currentSquare.Col - 2));
-            moves.AddIfOnBoard(Square.At(currentSquare.Row - 1, currentSquare.Col + 2));
-            moves.AddIfOnBoard(Square.At(currentSquare.Row - 1, currentSquare.Col - 2));
+            var potentialMoves = new List<Square>()
+            {
+                Square.At(currentSquare.Row + 2, currentSquare.Col + 1),
+                Square.At(currentSquare.Row + 2, currentSquare.Col - 1),
+                Square.At(currentSquare.Row - 2, currentSquare.Col + 1),
+                Square.At(currentSquare.Row - 2, currentSquare.Col - 1),
+                Square.At(currentSquare.Row + 1, currentSquare.Col + 2),
+                Square.At(currentSquare.Row + 1, currentSquare.Col - 2),
+                Square.At(currentSquare.Row - 1, currentSquare.Col + 2),
+                Square.At(currentSquare.Row - 1, currentSquare.Col - 2)
+            };
+
+            return CheckAndAddMoves(potentialMoves, board);
+        }
+
+        public List<Square> CheckAndAddMoves(List<Square> potentialMoves, Board board)
+        {
+            var moves = new List<Square>();
+            foreach (var move in potentialMoves)
+            {
+                var pieceOnNewSquare = board.GetPiece(move);
+                if (pieceOnNewSquare == null || pieceOnNewSquare.Player != this.Player)
+                {
+                    moves.AddIfOnBoard(move);
+                }
+            }
 
             return moves;
         }
