@@ -13,8 +13,7 @@ namespace Chessington.GameEngine.Pieces
             var moves = new List<Square>();
             var currentSquare = board.FindPiece(this);
             var directions = CardinalDirections.Concat(DiagonalDirections).ToList();
-            var helpers = new Helpers();
-            helpers.AddMoves(board, directions, currentSquare, 1, moves, this.Player);
+            Helpers.AddMoves(board, directions, currentSquare, 1, moves, this.Player);
             return moves;
         }
     }

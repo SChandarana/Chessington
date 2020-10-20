@@ -6,22 +6,21 @@ namespace Chessington.GameEngine
 {
     public class Helpers
     {
-        public void AddMoves(
+        public static void AddMoves(
             Board board, 
             List<Direction> directions, 
             Square currentSquare, 
             int spacesAway, 
             List<Square> moves, 
             Player player
-            )
+        )
         {
-            var newDirections = new List<Direction>();
             foreach (var direction in directions)
             {
                 var potentialMove = Square.At(
                     currentSquare.Row + spacesAway * direction.RowOffset,
                     currentSquare.Col + spacesAway * direction.ColOffset
-                    );
+                );
                 var pieceOnNewSquare = board.GetPiece(potentialMove);
 
                 if (pieceOnNewSquare == null || pieceOnNewSquare.Player != player)
@@ -31,7 +30,7 @@ namespace Chessington.GameEngine
             }
         }
 
-        public List<Direction> UpdateValidDirections(
+        public static List<Direction> UpdateValidDirections(
             Board board,
             List<Direction> directions,
             Square currentSquare,
@@ -40,7 +39,7 @@ namespace Chessington.GameEngine
         {
             return directions.Where(
                 direction => SpaceInDirectionIsAvailable(direction, board, currentSquare, spacesAway)
-                ).ToList();
+            ).ToList();
         }
 
         private static bool SpaceInDirectionIsAvailable(Direction direction, Board board, Square currentSquare, int spacesAway)
